@@ -39,7 +39,7 @@ class App extends Component {
 		page = this.currentPage;
 		clearTimeout(timer);
 		timer = setTimeout(function () {
-			inputMovie = document.getElementById("movieBusca").value;;
+			inputMovie = document.getElementById("movieBusca").value;
 			axios.get('http://www.omdbapi.com/?apikey=4e001895&page='+page+'&s=' + inputMovie)
 			.then(resp => {
 				console.log(resp);
