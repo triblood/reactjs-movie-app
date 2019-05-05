@@ -36,11 +36,26 @@ class App extends Component {
 	}
 
 	addMovie = (e) => {
+		// console.log(e)
 		let idmovie = e.currentTarget.attributes['data-id'].value;
 		let movieUpdate = JSON.parse(window.localStorage.getItem('myMovies'));
 		// console.log(idmovie);
-		movieUpdate['ids'].concat(movieUpdate['ids'].push({'id': idmovie}));
-		localStorage.setItem('myMovies', JSON.stringify(movieUpdate));
+		// movieUpdate['ids'].concat(movieUpdate['ids'].push({'id': idmovie}));
+		// localStorage.setItem('myMovies', JSON.stringify(movieUpdate));
+
+		axios.get('http://www.omdbapi.com/?apikey=4e001895&i=' + idmovie)
+		.then(res => {
+			console.log(res);
+
+			let movieImg = res.data.Poster;
+			let movieTitle = res.data.Title;
+			let moviePlot = res.data.Plot;
+			let movieYearRelease = res.data.Year;
+
+			movieUpdate['ids'].concat(movieUpdate['ids'].push({'id': idmovie, 'poster': movieImg, 'title': movieTitle, 'plot': moviePlot, 'year': movieYearRelease }));
+			localStorage.setItem('myMovies', JSON.stringify(movieUpdate));
+		})
+
 	}
 
 	loadMovies(pg, termo){
@@ -58,13 +73,6 @@ class App extends Component {
 			}
 		});
 	}
-
-	// itemLoad = ()(id){
-	// 	axios.get('http://www.omdbapi.com/?apikey=4e001895&i=' + id)
-	// 	.then(res => {
-	// 		console.log(res);
-	// 	})
-	// }
 
 	buscaMovie = () =>{
 		this.setState({currentPage: 1});
@@ -101,21 +109,10 @@ class App extends Component {
 
 	}
 
-	async getInfo(idsArr) {
-		let titleArr = []
-		console.log(idsArr)
-		for(let idObj of idsArr) {
-			const {data: {Title}} = await axios.get('http://www.omdbapi.com/?apikey=4e001895&i=' + idObj.id)
-			titleArr.push(Title)
-		}
-		console.log(titleArr)
-		return (titleArr);
-	}
-
-	toggleDrawer = async (side, open) => {
+	toggleDrawer = (side, open) => {
 		const listaMovies = JSON.parse(window.localStorage.getItem('myMovies')).ids;
-		const titles = this.getInfo(listaMovies)
-		this.setState({[side]: open, listMovie: listaMovies, listName: titles});
+		// const titles = this.getInfo(listaMovies)
+		this.setState({[side]: open, listMovie: listaMovies});
 	};
 
 	render(){
@@ -134,7 +131,7 @@ class App extends Component {
 						}
 						<Grid container direction="row" alignItems="flex-start" justify="space-around" className="resultado">
 							{this.state.movies.map((movies, id) => (<Card key={id} style={{maxWidth: 300, width: '100%', marginBottom: 30, minHeight: 570, position: 'relative'}}>
-								<Fab color="secondary" aria-label="Add" className="Add" style={{position: 'absolute', bottom: 15, right: 15}} data-id={movies.imdbID} onClick={() => this.addMovie()}>
+								<Fab color="secondary" aria-label="Add" className="Add" style={{position: 'absolute', bottom: 15, right: 15}} data-id={movies.imdbID} onClick={(e) => this.addMovie(e)}>
 									<AddIcon />
 								</Fab>
 								<CardMedia image={movies.Poster} title={movies.Title} style={{height: 465}} />
@@ -152,11 +149,18 @@ class App extends Component {
 						onClick={() => this.toggleDrawer('left', false)}
 						onKeyDown={() => this.toggleDrawer('left', false)}
 					>
-						{ (this.state.listMovie.length > 0 && (
-							this.state.listMovie.map((itemMovie, key) => (
-									<div key={key}>{}</div>
-								))
-						)) }
+						<Typography variant="overline" style={{fontWeight: 700, margin: '15px 10px'}} gutterBottom>Meus filmes</Typography>
+						{this.state.listMovie.map((myMovie, id) => (
+						<div className="myMovie" key={id} style={{width: '100%', float: 'left', marginBottom: 25}}>
+							<div className="img" style={{width: '33%', float: 'left', margin: '0 10px'}}><img src={myMovie.poster} alt={myMovie.title} style={{width: '100%', height: 'auto'}}/></div>
+							<div className="info" style={{float: 'left', width: 'calc(66% - 30px)'}}>
+								<span className="title">
+									<Typography variant="overline" style={{lineHeight: 1.66}} gutterBottom>{myMovie.title}</Typography>
+							  	</span>
+								<span className="plot"><Typography variant="caption" gutterBottom>Resumo: {myMovie.plot}</Typography></span>
+								<span className="release"><Typography variant="caption" gutterBottom>Lançado em: {myMovie.year}</Typography></span>
+							</div>
+						</div>))}
 					</div>
 				</Drawer>
 			</main>
