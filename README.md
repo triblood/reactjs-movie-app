@@ -1,16 +1,24 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Movie APP
+Um app simples que consulta uma base de dados de filmes.
 
-## Available Scripts
+## API
+A API usada para consulta foi a [OMDb](http://www.omdbapi.com/). Você vai precisar de uma chave (apikey) para poder fazer as consultas.
 
-In the project directory, you can run:
+## UI
+A interface foi feita usando o [Material UI](https://material-ui.com)
+
+## ReactJS
+O React foi utilizado para o desenvolvimento. Abaixo segue as instruções do [Create React App](https://github.com/facebook/create-react-app)
+
+Após baixar o repositório, instale as dependencias usando "npm i" ou "npm install"
 
 ### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Roda o app em modo de desenvolvimento.<br>
+Abre [http://localhost:3000](http://localhost:3000) no seu navegador.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Caso ocorra uma edição, a pagina se recarregara automaticamente<br>
+Os erros apareceram no console.
 
 ### `npm test`
 
