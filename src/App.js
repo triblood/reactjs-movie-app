@@ -43,7 +43,7 @@ class App extends Component {
 		// movieUpdate['ids'].concat(movieUpdate['ids'].push({'id': idmovie}));
 		// localStorage.setItem('myMovies', JSON.stringify(movieUpdate));
 
-		axios.get('http://www.omdbapi.com/?apikey=4e001895&i=' + idmovie)
+		axios.get('https://www.omdbapi.com/?apikey=4e001895&i=' + idmovie)
 		.then(res => {
 			console.log(res);
 
@@ -60,7 +60,7 @@ class App extends Component {
 
 	loadMovies(pg, termo){
 		let self = this;
-		axios.get('http://www.omdbapi.com/?apikey=4e001895&page='+pg+'&s=' + termo)
+		axios.get('https://www.omdbapi.com/?apikey=4e001895&page='+pg+'&s=' + termo)
 		.then(resp => {
 			// console.log(resp);
 			if(resp.data.Response === "True"){

@@ -1,5 +1,6 @@
 {
   "name": "reactjs-movie-app",
+  "homepage": "https://meuweb.site/apps/myMovies/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
